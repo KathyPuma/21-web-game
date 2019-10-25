@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     console.log("DOM Loaded");
     let startButton = document.querySelector("#start_Button")
     startButton.addEventListener("click", ()=>{
+        removeButton()
         displayCards()
     })
     let hitButton = document.querySelector("#hit_Button")
@@ -66,29 +67,25 @@ let userTotal= []
 let computerTotal=[]
 let userEndingTotal=""
 let compEndingTotal=""
+
+
+
+const removeButton= ()=>{
+    let startCardsDiv= document.querySelector('#begin_button')
+    let startButton =document.querySelector('#start_Button')
+    let userCardDiv = document.createElement('div')
+    userCardDiv.id="userCardsDiv"
+    startCardsDiv.replaceChild(userCardDiv,startButton)
+}
+
 const displayUserTotal=(cards) =>{
     let startCardsDiv= document.querySelector('#begin_button')
-    document.body.appendChild(startCardsDiv)
-
-    for(let i=0;i<cards.length;i++){
-
-        if(cards[i].value === "JACK"||cards[i].value === "QUEEN"||cards[i].value === "KING" ){
-            cards[i].value= 10+','
-            userTotal.push(cards[i].value)
-
-        }else if(cards[i].value === "ACE"){
-            cards[i].value= 1
-            userTotal.push(cards[i].value +',')
-        }else{
-            userTotal.push(cards[i].value+',')
-        }
-        let card = document.createElement('img')
-        card.src=cards[i].image
-        card.id="userCards"
-        startCardsDiv.append(card)
-    }
+   
+   
+    userValue(cards)
     let ptag= document.querySelector('p')
     if(!ptag){
+      
         let totalUserCount= document.createElement('p')
         totalUserCount.id= "totalCount"
         userEndingTotal=sumOfArray(userTotal)
@@ -111,6 +108,26 @@ const displayUserTotal=(cards) =>{
 
 
 
+const userValue =(cards) =>{
+    let userCardDiv = document.querySelector('#userCardsDiv')
+    for(let i=0;i<cards.length;i++){
+        if(cards[i].value === "JACK"||cards[i].value === "QUEEN"||cards[i].value === "KING" ){
+            cards[i].value= 10+','
+            userTotal.push(cards[i].value)
+
+        }else if(cards[i].value === "ACE"){
+            cards[i].value= 1
+            userTotal.push(cards[i].value +',')
+        }else{
+            userTotal.push(cards[i].value+',')
+        }
+        let card = document.createElement('img')
+        card.src=cards[i].image
+        card.id="userCards"
+        userCardDiv.appendChild(card)
+    }
+
+}
 
 
 
@@ -145,6 +162,7 @@ const displayComputerTotal=(cards) =>{
 
 }
 
+
 function sumOfArray(arr){
     let total=0
     for(let i in arr){
@@ -154,14 +172,12 @@ function sumOfArray(arr){
 }
 
 
-
 const winnerDisplay = () =>{
     let beginButton=document.querySelector("#begin_button")
     let result=document.createElement('p')
     result.id="winner"
     result.innerText= winner(userEndingTotal,compEndingTotal)
     beginButton.append(result)
-
 }
 
 
@@ -175,11 +191,6 @@ const winner = (player,computer)=>{
  
     }
 }
-
-
-
-
-
 
 
 
