@@ -18,6 +18,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 
 let id=""
+let userTotal= [];
+let computerTotal=[];
+let userEndingTotal="";
+let compEndingTotal="";
+
 const displayCards= async() =>{
     const deckIdUrl= "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
     try{
@@ -41,31 +46,25 @@ const displayCards= async() =>{
 const displayHit = async() =>{
     const myUrl= `https://deckofcardsapi.com/api/deck/${id}/draw/?count=1`
     try{
-    const response= await axios.get(myUrl)
-    displayUserTotal(response.data.cards)
-    
-}catch(err){
-    displayError(err)
-}
+        const response= await axios.get(myUrl)
+        displayUserTotal(response.data.cards)
+    }catch(err){
+        displayError(err)
+    }
 }
 
 const displayStay = async() =>{
     const myUrl= `https://deckofcardsapi.com/api/deck/${id}/draw/?count=3`
     try{
-    const response= await axios.get(myUrl)
-    displayComputerTotal(response.data.cards)
-    winnerDisplay()
-    
-  
-}catch(err){
-    displayError(err)
-}
+        const response= await axios.get(myUrl)
+        displayComputerTotal(response.data.cards)
+        winnerDisplay()
+    }catch(err){
+        displayError(err)
+    }
 }
 
-let userTotal= [];
-let computerTotal=[];
-let userEndingTotal="";
-let compEndingTotal="";
+
 
 const removeButton= ()=>{
     let startCardsDiv= document.querySelector('#begin_button')
@@ -123,10 +122,8 @@ const displayComputerTotal=(cards) =>{
     let startCardsDiv= document.querySelector('#begin_button')
     document.body.appendChild(startCardsDiv)
     computerValue(cards)
-  
     let totalUserCount= document.createElement('p')
     compEndingTotal=sumOfArray(computerTotal)
-    console.log(compEndingTotal)
     totalUserCount.innerText= "Computer Total: " + sumOfArray(computerTotal)
     totalUserCount.id= "computerTotalCount"
     startCardsDiv.append(totalUserCount)  
