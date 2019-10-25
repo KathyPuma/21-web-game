@@ -1,19 +1,21 @@
 document.addEventListener("DOMContentLoaded", ()=>{
-    console.log("DOM Loaded");
+
     let startButton = document.querySelector("#start_Button")
     startButton.addEventListener("click", ()=>{
-        removeButton()
+        removeAddButton()
         displayCards()
+        
+        let hitButton = document.querySelector("#hit_Button")
+        hitButton.addEventListener("click", ()=>{
+            displayHit()
+        })
+        let stayButton = document.querySelector("#stay_Button")
+        stayButton.addEventListener("click", ()=>{
+            displayStay()
+           
+        })
     })
-    let hitButton = document.querySelector("#hit_Button")
-    hitButton.addEventListener("click", ()=>{
-        displayHit()
-    })
-    let stayButton = document.querySelector("#stay_Button")
-    stayButton.addEventListener("click", ()=>{
-        displayStay()
-       
-    })
+   
 })
 
 
@@ -65,14 +67,16 @@ const displayStay = async() =>{
 }
 
 
+const removeAddButton= ()=>{
+    let begin_button = document.querySelector('#begin_button')
+    let start_Button = document.querySelector('#start_Button')
+    begin_button.removeChild(start_Button)
+    let hit_Button= document.querySelector('#hit_Button')
+    hit_Button.style= "visibility: visible"
+    let stay_Button= document.querySelector('#stay_Button')
+    stay_Button.style= "visibility: visible"
 
-const removeButton= ()=>{
-    let startCardsDiv= document.querySelector('#begin_button')
-    let startButton =document.querySelector('#start_Button')
-    let userCardDiv = document.createElement('div')
-    userCardDiv.id="userCardsDiv"
-    startCardsDiv.replaceChild(userCardDiv,startButton)
-}
+} 
 
 const displayUserTotal=(cards) =>{
     let startCardsDiv= document.querySelector('#begin_button')   
@@ -95,8 +99,6 @@ const displayUserTotal=(cards) =>{
     }   
     
 }
-
-
 
 const userValue =(cards) =>{
     let userCardDiv = document.querySelector('#userCardsDiv')
@@ -131,9 +133,7 @@ const displayComputerTotal=(cards) =>{
 }
 
 const computerValue=(cards)=>{
-    let startCardsDiv= document.querySelector('#begin_button')
-    let computerCardsDiv= document.createElement('div')
-    startCardsDiv.appendChild(computerCardsDiv)
+    let computerCardsDiv= document.querySelector('#computerCardsDiv')
     for(let i=0;i<cards.length;i++){
         if(cards[i].value === "JACK"||cards[i].value === "QUEEN"||cards[i].value === "KING" ){
             cards[i].value= 10+','
