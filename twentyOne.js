@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     let stayButton = document.querySelector("#stay_Button")
     stayButton.addEventListener("click", ()=>{
         displayStay()
+       
     })
 })
 
@@ -52,6 +53,8 @@ const displayStay = async() =>{
     try{
     const response= await axios.get(myUrl)
     displayComputerTotal(response.data.cards)
+    winnerDisplay()
+    
   
 }catch(err){
     displayError(err)
@@ -63,7 +66,6 @@ let userTotal= []
 let computerTotal=[]
 let userEndingTotal=""
 let compEndingTotal=""
-// let startCardsDiv= document.querySelector('#begin_button')
 const displayUserTotal=(cards) =>{
     let startCardsDiv= document.querySelector('#begin_button')
     document.body.appendChild(startCardsDiv)
@@ -104,7 +106,13 @@ const displayUserTotal=(cards) =>{
         totalUserCount.innerText= "Your Total: " + sumOfArray(userTotal)
         startCardsDiv.replaceChild(totalUserCount,totalCount)  
     }   
+    
 }
+
+
+
+
+
 
 
 
@@ -113,13 +121,10 @@ const displayUserTotal=(cards) =>{
 const displayComputerTotal=(cards) =>{
     let startCardsDiv= document.querySelector('#begin_button')
     document.body.appendChild(startCardsDiv)
-
     for(let i=0;i<cards.length;i++){
-
         if(cards[i].value === "JACK"||cards[i].value === "QUEEN"||cards[i].value === "KING" ){
             cards[i].value= 10+','
             computerTotal.push(cards[i].value)
-
         }else if(cards[i].value === "ACE"){
             cards[i].value= 1
             computerTotal.push(cards[i].value +',')
@@ -147,6 +152,36 @@ function sumOfArray(arr){
     }
     return total
 }
+
+
+
+const winnerDisplay = () =>{
+    let beginButton=document.querySelector("#begin_button")
+    let result=document.createElement('p')
+    result.id="winner"
+    result.innerText= winner(userEndingTotal,compEndingTotal)
+    beginButton.append(result)
+
+}
+
+
+const winner = (player,computer)=>{
+    if(Math.abs(parseInt(player)-21)>Math.abs(parseInt(computer)-21)){
+        return "Computer Wins"
+    }else if(Math.abs(player-21)<Math.abs(computer-21)){
+        return "Player Wins"
+    }else{
+        return"It's a tie"
+ 
+    }
+}
+
+
+
+
+
+
+
 
 const displayError = (err)=>{
     let errorMessage= document.createElement('p')
