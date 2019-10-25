@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="twentyOne.js" ></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="twentyOne.js" ></script>
     </head>
     <body>
         <h1>Simple 21</h1>
-        <div id='begin_button'>
-            <button id= "start_Button">START</button>
-            <div id="userCardsDiv"></div>
-            <div id="computerCardsDiv"></div>
-        </div>
-        <button id= "hit_Button"  style="visibility: hidden" >HIT</button>
-        <button id="stay_Button" style="visibility: hidden"
-         >STAY</button>
-        <div id='main'></div>
-    </body>
+
+<div id= "allTheButtons">
+<div id='begin_button'>
+    <button id= "start_Button">START</button>
+    <div id="userCardsDiv"></div>
+    <div id="computerCardsDiv"></div>
+    <div id="points">
+        <h2 id="winner"></h2>
+    </div>
+
+</div>
+            <button id= "hit_Button"  style="visibility: hidden" >HIT</button>
+            <button id="stay_Button" style="visibility: hidden">STAY</button>
+</div>
+
+<div id='main'></div>
+
+</body>
 </html>
 

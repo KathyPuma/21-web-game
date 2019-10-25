@@ -1,18 +1,18 @@
 document.addEventListener("DOMContentLoaded", ()=>{
-
+    displayCards()
     let startButton = document.querySelector("#start_Button")
     startButton.addEventListener("click", ()=>{
         removeAddButton()
-        displayCards()
+        displayCardHits(2)
         
         let hitButton = document.querySelector("#hit_Button")
         hitButton.addEventListener("click", ()=>{
-            displayHit()
+            displayCardHits(1)
         })
         let stayButton = document.querySelector("#stay_Button")
         stayButton.addEventListener("click", ()=>{
-            displayStay()
-           
+            displayStay() 
+      
         })
     })
    
@@ -33,8 +33,9 @@ const displayCards= async() =>{
     }catch(err){
         displayError(err)
     }
-
-    const myUrl= `https://deckofcardsapi.com/api/deck/${id}/draw/?count=2`
+}
+const displayCardHits = async(num) =>{
+    const myUrl= `https://deckofcardsapi.com/api/deck/${id}/draw/?count=${num}`
     try{
         const response= await axios.get(myUrl)
         displayUserTotal(response.data.cards)
@@ -43,29 +44,17 @@ const displayCards= async() =>{
         displayError(err)
     }
 }
-
-
-const displayHit = async() =>{
-    const myUrl= `https://deckofcardsapi.com/api/deck/${id}/draw/?count=1`
-    try{
-        const response= await axios.get(myUrl)
-        displayUserTotal(response.data.cards)
-    }catch(err){
-        displayError(err)
-    }
-}
-
 const displayStay = async() =>{
     const myUrl= `https://deckofcardsapi.com/api/deck/${id}/draw/?count=3`
     try{
         const response= await axios.get(myUrl)
         displayComputerTotal(response.data.cards)
         winnerDisplay()
+        
     }catch(err){
         displayError(err)
     }
 }
-
 
 const removeAddButton= ()=>{
     let begin_button = document.querySelector('#begin_button')
@@ -79,39 +68,59 @@ const removeAddButton= ()=>{
 } 
 
 const displayUserTotal=(cards) =>{
-    let startCardsDiv= document.querySelector('#begin_button')   
-    userValue(cards)
+    let userCardsDiv= document.querySelector('#userCardsDiv')
+    let begin_button= document.querySelector('#begin_button')
+    let points = document.querySelector('#points')
+    value(cards,userTotal)
     let ptag= document.querySelector('p')
     if(!ptag){
         let totalUserCount= document.createElement('p')
         totalUserCount.id= "playerTotalCount"
         userEndingTotal=sumOfArray(userTotal)
-        totalUserCount.innerText= "Your Total: " + sumOfArray(userTotal)
-        startCardsDiv.append(totalUserCount)  
+        totalUserCount.innerText= userEndingTotal
+        points.append(totalUserCount)  
     }else{
         let playerTotalCount = document.querySelector('#playerTotalCount')
         
         let totalUserCount= document.createElement('p')
         userEndingTotal=sumOfArray(userTotal)
         totalUserCount.id= "playerTotalCount"
-        totalUserCount.innerText= "Your Total: " + sumOfArray(userTotal)
-        startCardsDiv.replaceChild(totalUserCount,playerTotalCount)  
+       
+        if(userEndingTotal < 22){
+            totalUserCount.innerText= `Your Total: ${userEndingTotal} ` 
+        }else{
+            totalUserCount.innerText= `Your Total:${userEndingTotal}  Busted` 
+            begin_button.replaceChild(totalUserCount,userCardsDiv)
+        }
+        points.replaceChild(totalUserCount,playerTotalCount)  
+        
     }   
+}
+
+const displayComputerTotal=(cards) =>{
+    let points= document.querySelector('#points')
+    value(cards,computerTotal)
+    let totalUserCount= document.createElement('p')
+    totalUserCount.id= "computerTotalCount"
+    compEndingTotal=sumOfArray(computerTotal)
+        totalUserCount.innerText= compEndingTotal
+        points.append(totalUserCount)  
+   
     
 }
 
-const userValue =(cards) =>{
+const value =(cards,player) =>{
     let userCardDiv = document.querySelector('#userCardsDiv')
     for(let i=0;i<cards.length;i++){
         if(cards[i].value === "JACK"||cards[i].value === "QUEEN"||cards[i].value === "KING" ){
             cards[i].value= 10+','
-            userTotal.push(cards[i].value)
+            player.push(cards[i].value)
 
         }else if(cards[i].value === "ACE"){
             cards[i].value= 1
-            userTotal.push(cards[i].value +',')
+            player.push(cards[i].value +',')
         }else{
-            userTotal.push(cards[i].value+',')
+            player.push(cards[i].value+',')
         }
         let card = document.createElement('img')
         card.src=cards[i].image
@@ -120,36 +129,7 @@ const userValue =(cards) =>{
     }
 }
 
-const displayComputerTotal=(cards) =>{
-    let startCardsDiv= document.querySelector('#begin_button')
-    document.body.appendChild(startCardsDiv)
-    computerValue(cards)
-    let totalUserCount= document.createElement('p')
-    compEndingTotal=sumOfArray(computerTotal)
-    totalUserCount.innerText= "Computer Total: " + sumOfArray(computerTotal)
-    totalUserCount.id= "computerTotalCount"
-    startCardsDiv.append(totalUserCount)  
 
-}
-
-const computerValue=(cards)=>{
-    let computerCardsDiv= document.querySelector('#computerCardsDiv')
-    for(let i=0;i<cards.length;i++){
-        if(cards[i].value === "JACK"||cards[i].value === "QUEEN"||cards[i].value === "KING" ){
-            cards[i].value= 10+','
-            computerTotal.push(cards[i].value)
-        }else if(cards[i].value === "ACE"){
-            cards[i].value= 1
-            computerTotal.push(cards[i].value +',')
-        }else{
-            computerTotal.push(cards[i].value+',')
-        }
-        let card = document.createElement('img')
-        card.src=cards[i].image
-        card.id="userCards"
-        computerCardsDiv.append(card)
-    }
-}
 
 function sumOfArray(arr){
     let total=0
@@ -161,23 +141,26 @@ function sumOfArray(arr){
 
 
 const winnerDisplay = () =>{
-    let beginButton=document.querySelector("#begin_button")
-    let result=document.createElement('p')
-    result.id="winner"
-    result.innerText= winner(userEndingTotal,compEndingTotal)
-    beginButton.append(result)
+    let winnerPlayer=document.querySelector("#winner")
+    
+    winnerPlayer.innerText = winner(userEndingTotal,compEndingTotal)
+    console.log(userEndingTotal)
 }
 
 const winner = (player,computer)=>{
-    if(Math.abs(parseInt(player)-21)>Math.abs(parseInt(computer)-21)){
-        return "Computer Wins"
-    }else if(Math.abs(player-21)<Math.abs(computer-21)){
-        return "Player Wins"
+    
+    if(parseInt(computer)>21){
+        return "You Won!"
+    }else if(21- parseInt(player)> 21- parseInt(computer)){
+        return "Computer Won!"
+    }else if(21 - parseInt(player) < 21 - parseInt(computer)){
+        return "You  Won"
     }else{
         return"It's a tie"
  
     }
 }
+
 
 const displayError = (err)=>{
     let errorMessage= document.createElement('p')
