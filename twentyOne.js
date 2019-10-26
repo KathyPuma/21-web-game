@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
         let stayButton = document.querySelector("#stay_Button")
         stayButton.addEventListener("click", ()=>{
             displayStay() 
-      
         })
     })
    
@@ -70,7 +69,6 @@ const removeAddButton= ()=>{
 const displayUserTotal=(cards) =>{
     let userCardsDiv= document.querySelector('#userCardsDiv')
     let begin_button= document.querySelector('#begin_button')
-   
     let points = document.querySelector('#points')
     value(cards,userTotal)
     let ptag= document.querySelector('p')
@@ -82,13 +80,8 @@ const displayUserTotal=(cards) =>{
         points.append(totalUserCount)  
     }else{
         let playerTotalCount = document.querySelector('#playerTotalCount')
-        
         let totalUserCount= document.createElement('p')
         userEndingTotal=sumOfArray(userTotal)
-        
-       
-
-       
         if(userEndingTotal < 22){
             totalUserCount.id= "playerTotalCount"
             totalUserCount.innerText=userEndingTotal
@@ -98,7 +91,6 @@ const displayUserTotal=(cards) =>{
             begin_button.replaceChild(totalUserCount,userCardsDiv)
         }
         points.replaceChild(totalUserCount,playerTotalCount)  
-        
     }   
 }
 
@@ -108,10 +100,8 @@ const displayComputerTotal=(cards) =>{
     let totalUserCount= document.createElement('p')
     totalUserCount.id= "computerTotalCount"
     compEndingTotal=sumOfArray(computerTotal)
-        totalUserCount.innerText= compEndingTotal
-        points.append(totalUserCount)  
-   
-    
+    totalUserCount.innerText= compEndingTotal
+    points.append(totalUserCount)  
 }
 
 const value =(cards,player) =>{
@@ -120,7 +110,6 @@ const value =(cards,player) =>{
         if(cards[i].value === "JACK"||cards[i].value === "QUEEN"||cards[i].value === "KING" ){
             cards[i].value= 10+','
             player.push(cards[i].value)
-
         }else if(cards[i].value === "ACE"){
             cards[i].value= 1
             player.push(cards[i].value +',')
@@ -134,8 +123,6 @@ const value =(cards,player) =>{
     }
 }
 
-
-
 function sumOfArray(arr){
     let total=0
     for(let i in arr){
@@ -143,7 +130,6 @@ function sumOfArray(arr){
     }
     return total
 }
-
 
 const winnerDisplay = () =>{
     let pointDiv=document.querySelector("#points")
@@ -166,7 +152,6 @@ const winner = (player,computer)=>{
  
     }
 }
-
 
 const displayError = (err)=>{
     let errorMessage= document.createElement('p')
