@@ -70,6 +70,7 @@ const removeAddButton= ()=>{
 const displayUserTotal=(cards) =>{
     let userCardsDiv= document.querySelector('#userCardsDiv')
     let begin_button= document.querySelector('#begin_button')
+   
     let points = document.querySelector('#points')
     value(cards,userTotal)
     let ptag= document.querySelector('p')
@@ -84,12 +85,16 @@ const displayUserTotal=(cards) =>{
         
         let totalUserCount= document.createElement('p')
         userEndingTotal=sumOfArray(userTotal)
-        totalUserCount.id= "playerTotalCount"
+        
+       
+
        
         if(userEndingTotal < 22){
-            totalUserCount.innerText= `Your Total: ${userEndingTotal} ` 
+            totalUserCount.id= "playerTotalCount"
+            totalUserCount.innerText=userEndingTotal
         }else{
-            totalUserCount.innerText= `Your Total:${userEndingTotal}  Busted` 
+            totalUserCount.id= "busted"
+            totalUserCount.innerText= "BUSTED"
             begin_button.replaceChild(totalUserCount,userCardsDiv)
         }
         points.replaceChild(totalUserCount,playerTotalCount)  
@@ -141,14 +146,15 @@ function sumOfArray(arr){
 
 
 const winnerDisplay = () =>{
-    let winnerPlayer=document.querySelector("#winner")
+    let pointDiv=document.querySelector("#points")
+    let winnerPlayer=document.createElement("h2")
     
+    winnerPlayer.id="winner"
     winnerPlayer.innerText = winner(userEndingTotal,compEndingTotal)
-    console.log(userEndingTotal)
+    pointDiv.append(winnerPlayer)
 }
 
 const winner = (player,computer)=>{
-    
     if(parseInt(computer)>21){
         return "You Won!"
     }else if(21- parseInt(player)> 21- parseInt(computer)){
