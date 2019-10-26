@@ -4,7 +4,8 @@ html,body{
 body{
     /* display: block; */
 background-image: url("https://image.freepik.com/free-photo/playing-cards-four-aces-green-background_35378-1177.jpg");
-background-position: top;
+background-position: center;
+background-attachment: fixed;
 background-repeat: no-repeat;
 background-size: cover;
 
@@ -24,25 +25,34 @@ align-content: center;
     color:white;
     border-radius: 15px;
     border: 1px solid  white;
+    width:25%;
+    justify-content: center;
+
 }
+
 
 
 #otherButtons{
     position: fixed;
-    bottom: 0;
+    bottom: 10px;
     width: 100%;   
     display: flex;
-    border-radius: 15px;
-    border: 1px solid;
+   
     flex-direction: row;
     justify-content:space-around;
 }
 
+.hitAndStay{
+    border-radius: 15px; 
+    border: 1px solid;
+   width:25%
+    
+}
 
 #points{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    border: solid;
+    /* border: solid; */
 }
 
 #winner{
@@ -51,4 +61,13 @@ align-content: center;
 }
 #busted{
     font-weight: bold;
+}
+#winner{
+    display: flex;
+    justify-content: center;
+}
+
+#computerTotalCount{
+    display: flex;
+    justify-content: flex-end;
 }

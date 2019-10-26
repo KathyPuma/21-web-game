@@ -175,4 +175,3 @@ const displayError = (err)=>{
     mainDiv.appendChild(errorMessage)
 }
 
-
